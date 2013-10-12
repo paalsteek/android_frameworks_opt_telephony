@@ -2551,15 +2551,15 @@ public class RIL extends BaseCommands implements CommandsInterface {
                     }
                     break;
             }
-	}
+        }
         handleProcessedSolicitedResponse(rr, error, ret);
-        rr.release();
     }
 
     protected void
     handleProcessedSolicitedResponse(RILRequest rr, int error, Object ret) {
         if (error != 0) {
             rr.onError(error, ret);
+            rr.release();
             return;
         }
 
@@ -2570,6 +2570,8 @@ public class RIL extends BaseCommands implements CommandsInterface {
             AsyncResult.forMessage(rr.mResult, ret, null);
             rr.mResult.sendToTarget();
         }
+
+        rr.release();
     }
 
     protected String
